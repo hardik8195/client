@@ -27,13 +27,13 @@ const Video2 = () => {
     useEffect(() => {
         (async () => {
             try {
-                const videoRes = await axios.get(`${BACKEND_URL}/videos/find/${path}`)
-                const channelRes = await axios.get(`${BACKEND_URL}/users/find/${videoRes.data.userId}`)
-                dispatch(setVideo(videoRes.data))
+                const videoRes = await axios.get(`${BACKEND_URL}/videos/find/${path}`);
+                const channelRes = await axios.get(`${BACKEND_URL}/users/find/${videoRes.data.userId}`);
                 setChannel(channelRes.data)
+                dispatch(setVideo(videoRes.data))
 
             } catch (error) {
-
+                console.log(error)
             }
         })()
     }, [path, dispatch])
