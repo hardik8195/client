@@ -11,24 +11,34 @@ const Comments = () => {
     const [loading,setLoading] = useState(false)
     const {comment} = useSelector((state)=>state.comment)
     const {video} = useSelector((state)=>state.video)
+    const {user} = useSelector((state)=>state.auth)
     const dispatch = useDispatch()
     useEffect(() => {
         (async () => {
 
             try {
-                const CommentRes = await axios.get(`${BACKEND_URL}/api/v1/comments/${video._id}`)
+                const CommentRes = await axios.get(`${BACKEND_URL}/comments/${video._id}`,{
+                    headers: {
+                        "Authorization": `Bearer ${user.accessToken}`
+                      }
+                    
+                })
                 dispatch(setItems(CommentRes.data))
             } catch (error) {
                 console.log(error)
             }
         })()
-    }, [video._id])
+    }, [video._id,dispatch,user.accessToken])
     const handleComment = async (e) => {
         e.preventDefault();
 
         try {
         setLoading(true)
-            const res = await axios.post(`${BACKEND_URL}/api/v1/comments`, { desc: usercomment, videoId: video._id })
+            const res = await axios.post(`${BACKEND_URL}/comments`, { desc: usercomment, videoId: video._id },{
+                headers: {
+                    "Authorization": `Bearer ${user.accessToken}`
+                  }
+            })
             dispatch(addComment({_id:res.data._id,userId:res.data.userId,desc:usercomment}))
         setLoading(false)
             

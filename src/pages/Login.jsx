@@ -32,7 +32,7 @@ const Login = () => {
         
         try {
             const res = await axios.post(`${BACKEND_URL}/users/login`, { username, email, password })
-            console.log(res)
+            console.log(res.data)
             dispatch(loginSuccess(res.data))
             navigate("/")
         } catch (error) {

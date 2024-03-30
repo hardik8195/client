@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    video: {},
+    video: null,
     status: false,
 }
 

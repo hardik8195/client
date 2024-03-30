@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../utils/http';
+import { useSelector } from 'react-redux';
 
 export default function UploadVideo() {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("")
     const [thumbnail, setThumbnail] = useState();
     const [videoFile, setVideoFile] = useState()
+    const {user} = useSelector((state)=>state.auth)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
@@ -26,9 +28,11 @@ export default function UploadVideo() {
 
         try {
             setLoading(true)
-            await axios.post(`${BACKEND_URL}/api/v1/videos`, formData, {
+            await axios.post(`${BACKEND_URL}/videos`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${user.accessToken}`
+                    
                 },
             })
             setLoading(false)

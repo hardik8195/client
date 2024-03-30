@@ -18,27 +18,27 @@ const authSlice = createSlice({
             state.status = false
         },
         subscription: (state, action) => {
-            if (state.user.subscribedUsers.includes(action.payload)) {
-                state.user.subscribedUsers.splice(
-                    state.user.subscribedUsers.findIndex(
+            if (state.user.data.subscribedUsers.includes(action.payload)) {
+                state.user.data.subscribedUsers.splice(
+                    state.user.data.subscribedUsers.findIndex(
                         (channelId) => channelId === action.payload
                     ),
                     1
                 );
             } else {
-                state.user.subscribedUsers.push(action.payload)
+                state.user.data.subscribedUsers.push(action.payload)
             }
         },
         savedVideos : (state,action) => {
-            if (state.user.savedVideos.includes(action.payload)) {
-                state.user.savedVideos.splice(
-                    state.user.savedVideos.findIndex(
+            if (state.user.data.savedVideos.includes(action.payload)) {
+                state.user.data.savedVideos.splice(
+                    state.user.data.savedVideos.findIndex(
                         (VideoId) => VideoId === action.payload
                     ),
                     1
                 );
             } else {
-                state.user.savedVideos.push(action.payload)
+                state.user.data.savedVideos.push(action.payload)
             }
         },
     }

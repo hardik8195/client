@@ -16,6 +16,7 @@ import { BACKEND_URL } from "../utils/http";
 export default function Menubar() {
   const navigate = useNavigate();
   const userStatus = useSelector((state) => state.auth.status)
+  const {user} = useSelector((state)=>state.auth)
   const [loading,setLoading] = useState(false)
   const dispatch = useDispatch()
 
@@ -23,7 +24,11 @@ export default function Menubar() {
     e.preventDefault();
     setLoading(true)
     try {
-      const res = await axios.post(`${BACKEND_URL}/users/logout`)
+      const res = await axios.post(`${BACKEND_URL}/users/logout`,{},{
+        headers: {
+          "Authorization": `Bearer ${user.accessToken}`
+        }
+      })
       if(res.data) dispatch(logout())
       navigate("/")
     } catch (error) {

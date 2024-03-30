@@ -13,19 +13,29 @@ const Comment = ({comment}) => {
   useEffect(()=>{
     (async()=>{
       try {
-        const res = await axios.get(`${BACKEND_URL}/users/find/${comment.userId}`)
+        const res = await axios.get(`${BACKEND_URL}/users/find/${comment.userId}`,{
+          headers: {
+            "Authorization": `Bearer ${user.accessToken}`
+          }
+        }
+
+        )
         setChannel(res.data)
       } catch (error) {
         console.log(error)
       }
     })()
-  },[comment.userId])
+  },[comment.userId,user.accessToken])
 
   const handleDelete =async (e) => {
     e.preventDefault();
 
     try {
-      await axios.delete(`${BACKEND_URL}/comments/${comment._id}`)
+      await axios.delete(`${BACKEND_URL}/comments/${comment._id}`,{
+        headers: {
+          "Authorization": `Bearer ${user.accessToken}`
+        }
+      })
       dispatch(deleteComment(comment._id))
     } catch (error) {
       console.log(error)
@@ -40,7 +50,7 @@ const Comment = ({comment}) => {
           <p style={{ fontSize: 'medium' }}>{comment.desc}</p>
         </div>
       </div>
-      {user._id===comment.userId?
+      {user.data._id===comment.userId?
       <Button onClick={handleDelete} className='cursor-pointer'>
         <DeleteIcon/>
       </Button>

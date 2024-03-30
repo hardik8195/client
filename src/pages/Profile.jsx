@@ -12,13 +12,13 @@ const Profile = () => {
                     {/* Circular Image Container */}
                     <div className="w-32 h-32 mb-4">
                         <img className="w-full h-full rounded-full object-cover" 
-                        src={user.data.loggedInUser.avatar} alt="Profile Picture" />
+                        src={user.data.avatar} alt="Profile Picture" />
                     </div>
                     {/* User Information */}
                     <div className="text-center">
-                        <h2 className="text-gray-600 text-lg font-semibold">{user.data.loggedInUser.fullName}</h2>
-                        <p className="text-gray-600">Username: {user.data.loggedInUser.username}</p>
-                        <p className="text-gray-600">Email: {user.data.loggedInUser.email}</p>
+                        <h2 className="text-gray-600 text-lg font-semibold">{user.data.fullName}</h2>
+                        <p className="text-gray-600">Username: {user.data.username}</p>
+                        <p className="text-gray-600">Email: {user.data.email}</p>
                         <div className='flex gap-2'>
                             <Link to="/change-profile"><Button>Change Profile</Button></Link>
                             <Button>Change Password</Button>

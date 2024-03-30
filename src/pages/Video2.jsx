@@ -21,7 +21,7 @@ const Video2 = () => {
     const { video } = useSelector((state) => state.video)
     const { user } = useSelector((state) => state.auth)
     const [channel, setChannel] = useState({})
-    const [loading,setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -38,17 +38,35 @@ const Video2 = () => {
         })()
     }, [path, dispatch])
     const handleLike = async () => {
-        await axios.put(`${BACKEND_URL}/users/like/${video._id}`)
-        dispatch(like(user._id))
+        await axios.put(`${BACKEND_URL}/users/like/${video._id}`, {}, {
+            headers: {
+                "Authorization": `Bearer ${user.accessToken}`
+            }
+
+        })
+        dispatch(like(user.data._id))
     }
     const handleDislike = async () => {
-        await axios.put(`${BACKEND_URL}/users/dislike/${video._id}`)
-        dispatch(dislike(user._id))
+        const res = await axios.put(`${BACKEND_URL}/users/dislike/${video._id}`, {}, {
+            headers: {
+                "Authorization": `Bearer ${user.accessToken}`
+            }
+        })
+        console.log(res.data)
+        dispatch(dislike(user.data._id))
     }
     const handleSubscribe = async () => {
-        user.subscribedUsers.includes(channel._id) ?
-            await axios.put(`${BACKEND_URL}/users/unsub/${channel._id}`) :
-            await axios.put(`${BACKEND_URL}/users/sub/${channel._id}`)
+        user.data.subscribedUsers.includes(channel._id) ?
+            await axios.put(`${BACKEND_URL}/users/unsub/${channel._id}`, {}, {
+                headers: {
+                    "Authorization": `Bearer ${user.accessToken}`
+                }
+            }) :
+            await axios.put(`${BACKEND_URL}/users/sub/${channel._id}`, {}, {
+                headers: {
+                    "Authorization": `Bearer ${user.accessToken}`
+                }
+            })
 
         dispatch(subscription(channel._id))
     }
@@ -57,7 +75,11 @@ const Video2 = () => {
         e.preventDefault();
         try {
             setLoading(true)
-            await axios.delete(`${BACKEND_URL}/videos/${video._id}`)
+            await axios.delete(`${BACKEND_URL}/videos/${video._id}`, {
+                headers: {
+                    "Authorization": `Bearer ${user.accessToken}`
+                }
+            })
             setLoading(false)
             navigate("/")
         } catch (error) {
@@ -65,9 +87,17 @@ const Video2 = () => {
         }
     }
     const handleLibary = async () => {
-        user.savedVideos.includes(video._id) ?
-            await axios.put(`${BACKEND_URL}/users/unsave/${video._id}`) :
-            await axios.put(`${BACKEND_URL}/users/save/${video._id}`)
+        user.data.savedVideos.includes(video._id) ?
+            await axios.put(`${BACKEND_URL}/users/unsave/${video._id}`, {}, {
+                headers: {
+                    "Authorization": `Bearer ${user.accessToken}`
+                }
+            }) :
+            await axios.put(`${BACKEND_URL}/users/save/${video._id}`, {}, {
+                headers: {
+                    "Authorization": `Bearer ${user.accessToken}`
+                }
+            })
 
         dispatch(savedVideos(video._id))
     }
@@ -87,41 +117,42 @@ const Video2 = () => {
                             <p>{video.views} views . </p>
                         </div>
                         <div className="flex gap-3">
+                                <button onClick={handleDelete}>
                             {
-                                user._id == video.userId ?
-                                    (<div>
-                                        <button onClick={handleDelete}>
-                                            <DeleteIcon />{loading ? "Deleting" : "Delete"}</button>
-                                    </div>) : null
-                            }{" "}
+                                user.data._id === video.userId &&
+
+                                    (<DeleteIcon />)
+
+                            }
+                            {loading ? "Deleting" : "Delete"}</button>
 
                             <div className='flex gap-1' >
                                 <div className='cursor-pointer' onClick={handleLibary}>
-                                    {user.savedVideos.includes(video._id) ?
+                                    {user.data.savedVideos?.includes(video._id) ?
                                         (<BookmarkIcon />) :
                                         (<BookmarkBorderIcon />)
                                     }
                                 </div>
-                                <p>{user.savedVideos.includes(video._id) ?
+                                <p>{user.data.savedVideos?.includes(video._id) ?
                                     "Unsave" : "Save"
                                 }</p>
                             </div>
 
                             <div className='flex gap-1' >
                                 <div className='cursor-pointer' onClick={handleLike}>
-                                    {video.likes.includes(user._id) ?
+                                    {video.likes?.includes(user.data._id) ?
                                         (<ThumbUpIcon />) :
                                         (<ThumbUpOffAltIcon />)
-                                    }{" "}
+                                    }
                                 </div>
                                 <p>Like</p>
                             </div>
                             <div className='flex gap-1' >
                                 <div className='cursor-pointer' onClick={handleDislike}>
-                                    {video.dislikes.includes(user._id) ?
+                                    {video.dislikes?.includes(user.data._id) ?
                                         (<ThumbDownIcon />) :
                                         (<ThumbDownOffAltIcon />)
-                                    }{" "}
+                                    }
                                 </div>
                                 <p>Dislike</p>
                             </div>
@@ -141,7 +172,7 @@ const Video2 = () => {
                             <Button
                                 onClick={handleSubscribe}
                             >
-                                {user.subscribedUsers.includes(channel._id) ? "Subscribed" : "Subscribe"}
+                                {user.data.subscribedUsers?.includes(channel._id) ? "Subscribed" : "Subscribe"}
                             </Button>
                         </div>
                     </div>
