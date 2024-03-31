@@ -16,27 +16,27 @@ import { BACKEND_URL } from "../utils/http";
 export default function Menubar() {
   const navigate = useNavigate();
   const userStatus = useSelector((state) => state.auth.status)
-  const {user} = useSelector((state)=>state.auth)
-  const [loading,setLoading] = useState(false)
+  const { user } = useSelector((state) => state.auth)
+  const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 
-  const handleLogout =async (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
     setLoading(true)
     try {
-      const res = await axios.post(`${BACKEND_URL}/users/logout`,{},{
+      const res = await axios.post(`${BACKEND_URL}/users/logout`, {}, {
         headers: {
           "Authorization": `Bearer ${user.accessToken}`
         }
       })
-      if(res.data) dispatch(logout())
+      if (res.data) dispatch(logout())
       navigate("/")
     } catch (error) {
       console.log(error.message)
-    }finally{
+    } finally {
       setLoading(false)
     }
-    
+
   }
   return (
     <div className="flex-1 pr- bg-[#202020ec]">
@@ -61,19 +61,19 @@ export default function Menubar() {
               <p className="text-white">Explore</p>
             </li>
           </Link>
-          <Link  to={userStatus?"subscriptions":"login"}>
-          <li className="flex gap-1 my-1">
-            <SubscriptionsIcon className="text-white" />
-            <p className="text-white">Subscriptions</p>
-          </li>
+          <Link to={userStatus ? "subscriptions" : "login"}>
+            <li className="flex gap-1 my-1">
+              <SubscriptionsIcon className="text-white" />
+              <p className="text-white">Subscriptions</p>
+            </li>
           </Link>
 
           <hr className="m-3" />
-          <Link to="libary">
-          <li className="flex gap-1 my-1">
-            <LibraryAddIcon className="text-white" />
-            <p className="text-white ">Libary</p>
-          </li>
+          <Link to={userStatus ? "libary" : "login"}>
+            <li className="flex gap-1 my-1">
+              <LibraryAddIcon className="text-white" />
+              <p className="text-white ">Libary</p>
+            </li>
           </Link>
           <li className="flex gap-1 my-1">
             <HistoryIcon className="text-white" />
@@ -82,7 +82,7 @@ export default function Menubar() {
 
           <hr className="m-3" />
           {
-            userStatus ? <Button onClick={handleLogout}>{loading?"Signing out...":"Sign out"}</Button> :
+            userStatus ? <Button onClick={handleLogout}>{loading ? "Signing out..." : "Sign out"}</Button> :
               <div>
                 <p className=" text-white">if you want to explore new things plz sign in</p>
                 <Button onClick={() => navigate("/login")}>Sign In</Button>

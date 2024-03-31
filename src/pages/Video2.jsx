@@ -119,7 +119,7 @@ const Video2 = () => {
                     <h1>{video.title}</h1>
                     <div className="flex">
                         <div className="flex-1">
-                            <p>{video.views} views . </p>
+                            <p>{video.views} views .  {video.duration} seconds</p>
                         </div>
                         <div className="flex gap-3">
                                 <button onClick={handleDelete}>
@@ -191,7 +191,7 @@ const Video2 = () => {
                 <Recommendation />
             </div>
 
-        </div>) : (<div>loading ... </div>)}
+        </div>) : (<div className='text-white justify-center items-center'>Loading ... </div>)}
         </div>
 
     )
