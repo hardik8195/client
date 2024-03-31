@@ -103,6 +103,8 @@ const Video2 = () => {
     }
     return (
         <div className="flex gap-5">
+        {video && (
+
             <div className="flex-5">
                 <iframe
                     src={video.videoFile}
@@ -180,6 +182,7 @@ const Video2 = () => {
 
                 <Comments />
             </div>
+        )}
 
             <div className="flex-2">
                 <Recommendation />
