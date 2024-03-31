@@ -18,7 +18,7 @@ export default function Home({type}){
                 
                  config = {
                      headers: {
-                         "Authorization": `Bearer${user.accessToken}`
+                        "Authorization": `Bearer ${user.accessToken}`
                      }
                  };
              }
