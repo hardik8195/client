@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     video: null,
-    status: false,
+    status: false
 }
 
 const videoSlice = createSlice({
@@ -10,8 +10,8 @@ const videoSlice = createSlice({
     initialState,
     reducers: {
         setVideo: (state, action) => {
-            state.status = true
             state.video = action.payload
+            state.status = true
         },
         like: (state, action) => {
             if (!state.video.likes.includes(action.payload)) {

@@ -25,17 +25,18 @@ const Video2 = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
-        (async () => {
+         const fetchData = async () => {
             try {
                 const videoRes = await axios.get(`${BACKEND_URL}/videos/find/${path}`);
                 const channelRes = await axios.get(`${BACKEND_URL}/users/find/${videoRes.data.userId}`);
-                setChannel(channelRes.data)
-                dispatch(setVideo(videoRes.data))
-
+                setChannel(channelRes.data);
+                dispatch(setVideo(videoRes.data));
             } catch (error) {
-                console.log(error)
+                console.log(error);
             }
-        })()
+        };
+
+        fetchData();
     }, [dispatch,path])
     const handleLike = async () => {
         await axios.put(`${BACKEND_URL}/users/like/${video._id}`, {}, {
@@ -102,7 +103,8 @@ const Video2 = () => {
         dispatch(savedVideos(video._id))
     }
     return (
-        <div className="flex gap-5">
+        <div>
+        {video ? ( <div className="flex gap-5">
         
 
             <div className="flex-5">
@@ -189,6 +191,7 @@ const Video2 = () => {
                 <Recommendation />
             </div>
 
+        </div>) : (<div>loading ... </div>)}
         </div>
 
     )
