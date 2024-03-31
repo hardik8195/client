@@ -14,6 +14,9 @@ export default function Home({type}){
         })()
     },[type,setVideos])
     return (
+        <>
+        {videos ? (
+
         <div className="flex flex-wrap justify-between p-6">
             {
                 videos.map((video)=>(
@@ -21,5 +24,9 @@ export default function Home({type}){
                 ))
             }
         </div>
+        ) : (<div className="text-white" style={{"fontSize":"large"}}>Loading......</div>)
+
+        }
+        </>
     )
 }

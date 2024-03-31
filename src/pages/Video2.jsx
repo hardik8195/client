@@ -22,6 +22,7 @@ const Video2 = () => {
     const { user } = useSelector((state) => state.auth)
     const [channel, setChannel] = useState({})
     const [loading, setLoading] = useState(false)
+    const num = +(video.duration)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
@@ -119,17 +120,17 @@ const Video2 = () => {
                     <h1>{video.title}</h1>
                     <div className="flex">
                         <div className="flex-1">
-                            <p>{video.views} views .  {video.duration} seconds</p>
+                            <p>{video.views} views . {Math.round(num*100)/100} seconds</p>
                         </div>
                         <div className="flex gap-3">
-                                <button onClick={handleDelete}>
                             {
                                 user.data._id === video.userId &&
 
-                                    (<DeleteIcon />)
+                               ( <button onClick={handleDelete}>
+                                <DeleteIcon />
+                            {loading ? "Deleting" : "Delete"}</button>)
 
                             }
-                            {loading ? "Deleting" : "Delete"}</button>
 
                             <div className='flex gap-1' >
                                 <div className='cursor-pointer' onClick={handleLibary}>

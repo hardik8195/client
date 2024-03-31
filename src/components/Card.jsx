@@ -9,6 +9,7 @@ export default function Card({video}){
     const [channel,setChannel] = useState({});
     const {status} = useSelector((state)=>state.auth)
     const navigate = useNavigate()
+    const num = +(video.duration)
     useEffect(()=>{
         (async () => {
             const res = await axios.get(`${BACKEND_URL}/users/find/${video.userId}`)
@@ -31,7 +32,7 @@ export default function Card({video}){
             <div className="text-white">
                 <p>{channel.username}</p>
                 <div className="flex gap-3">
-                    <p>{video.views} views - {video.duration} seconds</p>
+                    <p>{video.views} views - {Math.round(num*100)/100} seconds</p>
                     <p></p>
                 </div>     
             </div>
