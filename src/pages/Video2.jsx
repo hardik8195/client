@@ -36,7 +36,7 @@ const Video2 = () => {
                 console.log(error)
             }
         })()
-    }, [path, dispatch])
+    }, [dispatch,path])
     const handleLike = async () => {
         await axios.put(`${BACKEND_URL}/users/like/${video._id}`, {}, {
             headers: {
@@ -107,6 +107,7 @@ const Video2 = () => {
 
             <div className="flex-5">
                 <iframe
+                    title={video.title}
                     src={video.videoFile}
                     allowFullScreen
                     width="100%"
