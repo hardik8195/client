@@ -8,7 +8,7 @@ const Libary = () => {
   return (
     <div className='flex flex-wrap gap-3'>
       {
-        user.data.loggedInUser.savedVideos.map((savedVideo) => (
+        user.data.savedVideos.map((savedVideo) => (
           <SavedVideoCard key={savedVideo} videoId={savedVideo}/>
         ))
       }
