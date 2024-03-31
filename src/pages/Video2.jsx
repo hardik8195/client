@@ -22,7 +22,7 @@ const Video2 = () => {
     const { user } = useSelector((state) => state.auth)
     const [channel, setChannel] = useState({})
     const [loading, setLoading] = useState(false)
-    const num = +(video.duration)
+    const num = +(video?.duration)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
