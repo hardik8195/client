@@ -11,9 +11,9 @@ import Profile from "./pages/Profile"
 import ChangeProfile from "./components/ChangeProfile"
 import Libary from "./pages/Libary"
 import Video2 from "./pages/Video2"
+import { useSelector } from "react-redux"
 
 export default function App() {
-  
   return (
     <>
       <BrowserRouter>
